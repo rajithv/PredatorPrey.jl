@@ -31,8 +31,16 @@ plotkwargs = (
     heatkwargs = heatkwargs
 )
 
-using PredatorPrey
 fig, _ = abmplot(model; plotkwargs...)
 fig
+
+sheep(a) = a.Identity.type == :sheep
+wolves(a) = a.Identity.type == :wolf
+count_grass(model) = count(model.fully_grown)
+
+n = 500
+adata = [(sheep, count), (wolves, count)]
+mdata = [count_grass]
+adf, mdf = run!(model, agent_step!, grass_step!, n; adata, mdata)
 
 end
